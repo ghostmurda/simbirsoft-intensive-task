@@ -2,7 +2,7 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import { getEuropeLeaguesRequest } from '../service/FootballService';
 import League from '../components/League';
-import { LeaguesWrapper } from '../styles/Ligues.styles';
+import { ContainerWrapper } from '../styles/Ligues.styles';
 
 export default function LeaguesContainer() {
     const [leagues, setLeagues] = useState([]);
@@ -16,11 +16,9 @@ export default function LeaguesContainer() {
         return () => getLeagues;
     }, [])
 
-    console.log(leagues);
-
     return (
-        <LeaguesWrapper>
+        <ContainerWrapper>
             {leagues.map((item, key) => <League {...item} key={key} />)}
-        </LeaguesWrapper>
+        </ContainerWrapper>
     );
 }

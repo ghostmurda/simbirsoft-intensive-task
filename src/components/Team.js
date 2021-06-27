@@ -1,20 +1,20 @@
-import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@material-ui/core';
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@material-ui/core';
 import { ContainerItem } from '../styles/Ligues.styles';
+import { useHistory } from 'react-router-dom';
 
 const defaultLogo = 'https://img.icons8.com/ios/500/football2--v1.png';
 
-export default function League(props) {
+export default function Team(props) {
     const history = useHistory();
 
     return (
         <ContainerItem>
             <Card style={{height: 232 }}>
-                <CardActionArea onClick={() => history.push(`/teams/${props.id}`)}>
+                <CardActionArea>
                     <CardMedia 
                         component="img"
-                        image={props?.emblemUrl ? props.emblemUrl : defaultLogo} 
+                        image={props?.crestUrl ? props.crestUrl : defaultLogo} 
                         alt="Image"
                         width="128"
                         height="160"

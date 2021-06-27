@@ -10,7 +10,12 @@ export const getEuropeLeaguesRequest = async () => {
     return response.data.competitions;
 }
 
-export const getTeamsRequest = async (id) => {
-    const response = await instance.get(`/competitions/${id}/teams`);
-    return response;
+export const getTeamsRequest = async (id, year = 2021) => {
+    const response = await instance.get(`/competitions/${id}/teams?season=${year}`);
+    return response.data.teams;
+}
+
+export const getTeamMatchesRequest = async (id) => {
+    const response = await instance.get(`/teams/${id}/matches`);
+    
 }

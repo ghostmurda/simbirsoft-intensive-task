@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const LeaguesWrapper = styled.div`
+export const ContainerWrapper = styled.div`
     max-width: 800px;
     display: flex;
     flex-wrap: wrap;
@@ -8,7 +8,7 @@ export const LeaguesWrapper = styled.div`
     margin-top: 32px;
 `;
 
-export const LeagueWrapper = styled.div`
+export const ContainerItem = styled.div`
     padding: 16px;
     max-width: 160px;
     min-height: 232px;
