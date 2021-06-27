@@ -15,7 +15,7 @@ export const getTeamsRequest = async (id, year = 2021) => {
     return response.data.teams;
 }
 
-export const getTeamMatchesRequest = async (id) => {
-    const response = await instance.get(`/teams/${id}/matches`);
-    
+export const getTeamMatchesRequest = async (id, dateFrom, dateTo) => {
+    const response = await instance.get(`/teams/${id}/matches?dateFrom=${dateFrom}&dateTo=${dateTo}`);
+    return response.data.matches;
 }

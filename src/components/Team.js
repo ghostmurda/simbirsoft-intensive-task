@@ -11,7 +11,7 @@ export default function Team(props) {
     return (
         <ContainerItem>
             <Card style={{height: 232 }}>
-                <CardActionArea>
+                <CardActionArea onClick={() => history.push(`/matches/${props.id}`)}>
                     <CardMedia 
                         component="img"
                         image={props?.crestUrl ? props.crestUrl : defaultLogo} 
