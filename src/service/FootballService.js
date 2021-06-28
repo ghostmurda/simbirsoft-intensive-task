@@ -1,8 +1,9 @@
 import * as axios from 'axios';
+import { API } from '../../config';
 
 const instance = axios.create({
     baseURL: 'http://api.football-data.org/v2',
-    headers: {'X-Auth-Token': '3763cf0e91d54923968be8072ab602eb'}
+    headers: {'X-Auth-Token': API}
 });
 
 export const getEuropeLeaguesRequest = async () => {
