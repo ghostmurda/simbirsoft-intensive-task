@@ -3,50 +3,96 @@ import TextField from '@material-ui/core/TextField';
 import { ContainerWrapper } from '../styles/Ligues.styles';
 import { getTeamMatchesRequest } from '../service/FootballService';
 import { withRouter } from 'react-router-dom';
+import { CalendarWrapper } from '../styles/TeamCalendarContainer.styles';
+import { DataGrid } from '@material-ui/data-grid';
+import moment from "moment";
+
+const tableColumns = [
+    { field: 'homeTeam', headerName: 'Домашняя команда', width: 160 },
+    { field: 'awayTeam', headerName: 'Гостевая команда', width: 160 },
+    { field: 'date', headerName: 'Дата', width: 160 },
+    { field: 'status', headerName: 'Статус', width: 160 },
+    { field: 'score', headerName: 'Счет', width: 130 }
+];
 
 function TeamCalendarContainer(props) {
     const teamId = props.match.params.teamId;
     const [dateFrom, setDateFrom] = useState('2020-10-20');
     const [dateTo, setDateTo] = useState('2020-10-28');
     const [matches, setMatches] = useState([]);
+    const [tableRows, setTableRows] = useState([]);
 
-    const handleDateFrom = (event) => {
+    const handleDateFrom = event => {
         setDateFrom(event.target.value);
-    }
+    };
 
-    const handleDateTo = (event) => {
+    const handleDateTo = event => {
         setDateTo(event.target.value);
-    }
+    };
 
     useEffect(() => {
         const getMatches = async () => {
-            const response = await getTeamMatchesRequest(teamId, dateFrom, dateTo);
+            const response = await getTeamMatchesRequest(
+                teamId,
+                dateFrom,
+                dateTo
+            );
             setMatches(response);
         };
         getMatches();
         return () => getMatches;
-    }, [dateFrom, dateTo])
+    }, [dateFrom, dateTo]);
 
     console.log(matches);
 
+    useEffect(() => {
+        if (matches.length) {
+            const rows = [];
+            matches.forEach((match, i) => {
+                rows.push({
+                    id: i,
+                    homeTeam: match.homeTeam.name,
+                    awayTeam: match.awayTeam.name,
+                    date: moment(match.utcDate).format('YYYY-MM-DD'),
+                    status: match.status,
+                    score: `${match.score.fullTime.homeTeam} : ${match.score.fullTime.awayTeam}`,
+                });
+            })
+            setTableRows(rows);
+        }
+    }, [matches]);
+
     return (
         <ContainerWrapper>
+            <CalendarWrapper>
             <TextField
-                label="Дата с" 
-                variant="outlined" 
-                style={{width: 200, marginLeft: "calc(50vw - 100px)", marginTop: 64}}
+                label="Дата с"
+                variant="outlined"
+                style={{
+                    width: 200,
+                    marginTop: 64,
+                }}
                 value={dateFrom}
                 onChange={handleDateFrom}
                 helperText="YYYY-MM-DD"
             />
             <TextField
-                label="Дата по" 
-                variant="outlined" 
-                style={{width: 200, marginLeft: "calc(50vw - 100px)", marginTop: 64}}
+                label="Дата по"
+                variant="outlined"
+                style={{
+                    width: 200,
+                    marginTop: 64,
+                }}
                 value={dateTo}
                 onChange={handleDateTo}
                 helperText="YYYY-MM-DD"
             />
+            </CalendarWrapper>
+            {tableRows.length && 
+                <div style={{ height: 400, width: '100%' }}>
+                    <DataGrid rows={tableRows} columns={tableColumns} pageSize={5} />
+                </div>
+            }
         </ContainerWrapper>
     );
 }
