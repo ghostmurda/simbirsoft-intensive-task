@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { ContainerWrapper } from '../styles/Ligues.styles';
-import { getTeamMatchesRequest } from '../service/FootballService';
+import { getLeagueMatchesRequest, getTeamMatchesRequest } from '../service/FootballService';
 import { withRouter } from 'react-router-dom';
 import { CalendarWrapper } from '../styles/TeamCalendarContainer.styles';
 import { DataGrid } from '@material-ui/data-grid';
@@ -16,7 +16,7 @@ const tableColumns = [
 ];
 
 function TeamCalendarContainer(props) {
-    const teamId = props.match.params.teamId;
+    const id = props.match.params.id;
     const [dateFrom, setDateFrom] = useState('2020-10-20');
     const [dateTo, setDateTo] = useState('2020-10-28');
     const [matches, setMatches] = useState([]);
@@ -32,18 +32,25 @@ function TeamCalendarContainer(props) {
 
     useEffect(() => {
         const getMatches = async () => {
-            const response = await getTeamMatchesRequest(
-                teamId,
-                dateFrom,
-                dateTo
-            );
-            setMatches(response);
+            if (props.match.url.split('/')[1] === 'matches') {
+                const response = await getTeamMatchesRequest(
+                    id,
+                    dateFrom,
+                    dateTo
+                );
+                setMatches(response);
+            } else {
+                const response = await getLeagueMatchesRequest(
+                    id,
+                    dateFrom,
+                    dateTo
+                );
+                setMatches(response);
+            }
         };
         getMatches();
         return () => getMatches;
     }, [dateFrom, dateTo]);
-
-    console.log(matches);
 
     useEffect(() => {
         if (matches.length) {
@@ -55,7 +62,7 @@ function TeamCalendarContainer(props) {
                     awayTeam: match.awayTeam.name,
                     date: moment(match.utcDate).format('YYYY-MM-DD'),
                     status: match.status,
-                    score: `${match.score.fullTime.homeTeam} : ${match.score.fullTime.awayTeam}`,
+                    score: (match.status != 'CANCELLED') ? `${match.score.fullTime.homeTeam} : ${match.score.fullTime.awayTeam}` : ' ',
                 });
             })
             setTableRows(rows);

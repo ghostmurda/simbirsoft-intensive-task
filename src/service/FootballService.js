@@ -19,3 +19,8 @@ export const getTeamMatchesRequest = async (id, dateFrom, dateTo) => {
     const response = await instance.get(`/teams/${id}/matches?dateFrom=${dateFrom}&dateTo=${dateTo}`);
     return response.data.matches;
 }
+
+export const getLeagueMatchesRequest = async (id, dateFrom, dateTo) => {
+    const response = await instance.get(`/competitions/${id}/matches?dateFrom=${dateFrom}&dateTo=${dateTo}`);
+    return response.data.matches;
+}

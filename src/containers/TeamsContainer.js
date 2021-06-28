@@ -5,9 +5,10 @@ import { getTeamsRequest } from '../service/FootballService';
 import { ContainerWrapper } from '../styles/Ligues.styles';
 import Team from '../components/Team';
 import TextField from '@material-ui/core/TextField';
+import TeamCalendarContainer from './TeamCalendarContainer';
 
 function TeamsContainer(props) {
-    const leagueId = props.match.params.leagueId;
+    const leagueId = props.match.params.id;
     const [teams, setTeams] = useState([]);
     const [year, setYear] = useState(2021);
 
@@ -29,6 +30,7 @@ function TeamsContainer(props) {
 
     return (
         <Fragment>
+            <TeamCalendarContainer />
             <TextField 
                 label="Год" 
                 variant="outlined" 
@@ -38,7 +40,7 @@ function TeamsContainer(props) {
                 helperText="2018-2021"
             />
             <ContainerWrapper>
-                {teams.map((item, key) => <Team {...item} key={key} />)}
+                {teams.map((item, key) => <Team {...item} key={key} handleCurrentTeam={props.handleCurrentTeam} />)}
             </ContainerWrapper>
         </Fragment>
     );

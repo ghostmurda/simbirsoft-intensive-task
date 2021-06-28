@@ -8,10 +8,15 @@ const defaultLogo = 'https://img.icons8.com/ios/500/football2--v1.png';
 export default function Team(props) {
     const history = useHistory();
 
+    const onTeamClick = () => {
+        props.handleCurrentTeam(props.name);
+        history.push(`/matches/${props.id}`);
+    }
+
     return (
         <ContainerItem>
             <Card style={{height: 232 }}>
-                <CardActionArea onClick={() => history.push(`/matches/${props.id}`)}>
+                <CardActionArea onClick={onTeamClick}>
                     <CardMedia 
                         component="img"
                         image={props?.crestUrl ? props.crestUrl : defaultLogo} 

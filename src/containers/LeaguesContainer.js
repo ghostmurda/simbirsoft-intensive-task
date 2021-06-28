@@ -4,7 +4,7 @@ import { getEuropeLeaguesRequest } from '../service/FootballService';
 import League from '../components/League';
 import { ContainerWrapper } from '../styles/Ligues.styles';
 
-export default function LeaguesContainer() {
+export default function LeaguesContainer({handleCurrentLeague}) {
     const [leagues, setLeagues] = useState([]);
 
     useEffect(() => {
@@ -18,7 +18,7 @@ export default function LeaguesContainer() {
 
     return (
         <ContainerWrapper>
-            {leagues.map((item, key) => <League {...item} key={key} />)}
+            {leagues.map((item, key) => <League {...item} key={key} handleCurrentLeague={handleCurrentLeague} />)}
         </ContainerWrapper>
     );
 }
